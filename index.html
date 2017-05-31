@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>$终结</title>
+</head>
+<body>
+<canvas id="canvas" width="800" height="600" style="border:1px solid red"></canvas>
+</body>
+<script>
+    var canvas = document.getElementById("canvas");
+    var ctx = canvas.getContext("2d");
+
+    var img=new Image();
+    img.src="./NPCrabbitbaby-2.png";
+
+    //键盘码：37--左 38--上 39--右 40--下
+    img.onload=function(){
+        //计算宽高
+        var w=img.width/4;
+        var h=img.height/4;
+        //设置计算图片变化的变量
+        var i=0;
+        var j=0;
+        //设置图像移动距离的变量
+        var x=400-w/2;
+        var y=300-h/2;
+        //设置文字
+        ctx.font="30px Microsoft Yahei";
+        ctx.fillStyle="red";
+        ctx.fillText("点击方向键，开始移动",250,200);
+        ctx.drawImage(img,0,0,w,h,x,y,w,h);
+        //结束事件处理
+        function end (){
+            clearInterval(timer);
+            ctx.fillText("你死了",340,260);
+        };
+        //键盘点击事件
+        var timer;
+        window.onkeyup=function(e){
+            //代码简化
+            clearInterval(timer);
+            timer = setInterval(function(){
+                if(e.keyCode==40 || e.keyCode==37 || e.keyCode==38 || e.keyCode==39){
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                }
+                if(e.keyCode==40){
+                    ctx.drawImage(img,w*i,0,w,h,x,y+=6,w,h);
+                    if(y>=canvas.height-h){
+                        end();
+                    }
+                }
+                if(e.keyCode==37){
+                    ctx.drawImage(img,w*i,h,w,h,x-=6,y,w,h);
+                    if(x<=0){
+                        end();
+                    }
+                }
+                if(e.keyCode == 38){
+                    ctx.drawImage(img,w*i,h*3,w,h,x,y-=6,w,h);
+                    if(y<=0){
+                        end();
+                    }
+                }
+                if(e.keyCode == 39){
+                    ctx.drawImage(img,w*i,h*2,w,h,x+=6,y,w,h);
+                    if(x>=canvas.width-w){
+                        end();
+                    }
+                }
+                i++;
+                if(i>=4) i=0;
+            },100);
+
+            //思路代码
+            /*if(e.keyCode==40){
+                clearInterval(timer);
+                 timer=setInterval(function(){
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                    ctx.drawImage(img,w*i,0,w,h,x,y+=6,w,h);
+                    i++;
+                    if(i>=4) i=0;
+                    if(y>=canvas.height-h){
+                        clearInterval(timer);
+                        ctx.fillText("你死了",340,260);
+                    }
+                },100)
+            };
+            if(e.keyCode==37){
+                clearInterval(timer);
+                timer=setInterval(function(){
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                    ctx.drawImage(img,w*i,h,w,h,x-=6,y,w,h);
+                    i++;
+                    if(i>=4) i=0;
+                    if(x<=0){
+                        clearInterval(timer);
+                        ctx.fillText("你死了",340,260);
+                    }
+                },100)
+            };
+            if(e.keyCode == 38){
+                clearInterval(timer);
+                timer = setInterval(function(){
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                    ctx.drawImage(img,w*i,h*3,w,h,x,y-=6,w,h);
+                    i++;
+                    if(i>=4) i=0;
+                    if(y<=0){
+                        clearInterval(timer);
+                        ctx.fillText("你死了",340,260);
+                    }
+                },100)
+            };
+            if(e.keyCode == 39){
+                clearInterval(timer);
+                timer = setInterval(function(){
+                    ctx.clearRect(0,0,canvas.width,canvas.height);
+                    ctx.drawImage(img,w*i,h*2,w,h,x+=6,y,w,h);
+                    i++;
+                    if(i>=4) i=0;
+                    if(x>=canvas.width-w){
+                        clearInterval(timer);
+                        ctx.fillText("你死了",340,260);
+                    }
+                },100)
+            }*/
+        }
+    }
+</script>
+</html>
